@@ -2,20 +2,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 8000
+const bookRoutes = require('./routes/bookRoutes');
+const userRoute = require('./routes/user')
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://sugrivmlvt:anu%401234@cluster0.5rcp0gh.mongodb.net/book_store', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => console.log("MongoDB Connected"))
+mongoose.connect('mongodb://localhost:27017/bookstore',{
+  family: 4,
+}).then(() => console.log("MongoDB Connected"))
 .catch((err) => console.log("MongoDB err", err));;
 
-const bookRoutes = require('./routes/bookRoutes');
+
 
 // Use book routes
 app.use(express.json());
 app.use('/api', bookRoutes);
-
-
-// Define routes
+app.use('/api',userRoute)
 
 // Example route
 app.get('/', (req, res) => {
